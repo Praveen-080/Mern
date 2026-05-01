@@ -1,0 +1,15 @@
+# Netlify config for the Vite client
+#
+# This deploys ONLY the frontend (client). The Express/MongoDB server must be deployed separately
+# (Render/Railway/Fly/etc). Point the frontend to that server via the VITE_API_URL env var.
+
+[build]
+  base = "client"
+  command = "npm run build"
+  publish = "dist"
+
+# SPA routing (React Router)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

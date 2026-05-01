@@ -1,8 +1,8 @@
 // client/src/pages/Reports.jsx
-import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import socket from "../socket";
+import api from "../api";
 
 function formatDateInput(d) {
   if (!d) return "";
@@ -73,7 +73,7 @@ export default function Reports() {
       if (from) params.from = from;
       if (to) params.to = to;
       params.groupBy = groupBy;
-      const res = await axios.get("/api/reports/sales", { params });
+      const res = await api.get("/api/reports/sales", { params });
       setData(res.data);
       setLastUpdatedAt(new Date());
     } catch (err) {

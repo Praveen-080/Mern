@@ -1,7 +1,7 @@
-import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import socket from "../socket";
+import api from "../api";
 
 export default function SalesHistory() {
   const [sales, setSales] = useState([]);
@@ -14,7 +14,7 @@ export default function SalesHistory() {
   const loadSales = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("/api/sales/history", {
+      const res = await api.get("/api/sales/history", {
         params: { q: query, from, to },
       });
       setSales(res.data);

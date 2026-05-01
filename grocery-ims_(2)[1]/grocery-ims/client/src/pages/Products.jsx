@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import socket from "../socket";
+import api from "../api";
 
 // ---------- Product Form ----------
 function ProductForm({ onSaved, edit }) {
@@ -35,8 +35,8 @@ function ProductForm({ onSaved, edit }) {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      if (edit && edit._id) await axios.put(`/api/products/${edit._id}`, form);
-      else await axios.post("/api/products", form);
+      if (edit && edit._id) await api.put(`/api/products/${edit._id}`, form);
+      else await api.post("/api/products", form);
       onSaved();
       setForm({
         name: "",
@@ -137,7 +137,7 @@ export default function Products() {
   const [editing, setEditing] = useState(null);
 
   const load = async () => {
-    const { data } = await axios.get("/api/products");
+    const { data } = await api.get("/api/products");
     setProducts(data);
   };
 
@@ -161,7 +161,7 @@ export default function Products() {
 
   const remove = async (id) => {
     if (!window.confirm("Delete product?")) return;
-    await axios.delete(`/api/products/${id}`);
+    await api.delete(`/api/products/${id}`);
     load();
   };
 

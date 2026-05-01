@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import socket from "../socket";
+import api from "../api";
 
 // -------- Cart Row Component --------
 function CartRow({ item, onChange, onRemove }) {
@@ -44,7 +44,7 @@ export default function Billing() {
   });
 
   const loadProducts = async () => {
-    const { data } = await axios.get("/api/products");
+    const { data } = await api.get("/api/products");
     setProducts(data);
   };
 
@@ -102,11 +102,11 @@ export default function Billing() {
     if (!cart.length) return alert("Cart is empty!");
     try {
       const items = cart.map((c) => ({ productId: c.productId, qty: c.qty }));
-      const res = await axios.post("/api/cart/checkout", { items, customer });
+      const res = await api.post("/api/cart/checkout", { items, customer });
       const { invoiceId, invoiceNo } = res.data;
 
       // Download invoice PDF
-      const pdfResp = await axios.get(`/api/invoices/${invoiceId}/pdf`, {
+      const pdfResp = await api.get(`/api/invoices/${invoiceId}/pdf`, {
         responseType: "blob",
       });
       const blob = new Blob([pdfResp.data], { type: "application/pdf" });
